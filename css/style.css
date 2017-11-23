@@ -1,0 +1,41 @@
+body {
+	background-color: #cce3ff;
+	position: relative;
+}
+
+.header-logo {
+	text-align: center;
+}
+
+.inline-image {
+	width: 100%;
+	max-height: 80px;
+}
+
+.header-wrapper {
+	position:relative; 
+}
+
+.header-overlay{
+	position:absolute; /* absolute position (so we can position it where we want)*/
+	bottom:0px; /* position will be on bottom */
+	text-align: center;
+	width:100%;
+}
+
+.header-text {
+	color: white;
+	font-size: 35px;
+	font-family: Arial;
+	line-height: 1;
+}
+
+.sticky-footer {
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #565656;
+}
