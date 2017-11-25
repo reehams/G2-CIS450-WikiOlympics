@@ -1,0 +1,26 @@
+{
+  "name": "olympic-factbook",
+  "version": "1.0.0",
+  "description": "CIS 450/550 Final Project",
+  "main": "server.js",
+  "dependencies": {
+    "angular": "^1.6.6",
+    "bootstrap3": "^3.3.5",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reehams/G2-CIS450-WikiOlympics.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reehams/G2-CIS450-WikiOlympics/issues"
+  },
+  "homepage": "https://github.com/reehams/G2-CIS450-WikiOlympics#readme"
+}
