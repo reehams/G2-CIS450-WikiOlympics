@@ -1,7 +1,7 @@
 body {
 	background-color: #cce3ff;
 	position: relative;
-	overflow: hidden;
+	overflow-x: hidden; 
 }
 
 .header-logo {
