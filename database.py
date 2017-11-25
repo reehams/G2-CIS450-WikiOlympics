@@ -104,11 +104,17 @@ def updateWonMedal(conn):
             # get athlete_id
             athlete_id = seen[name]
             year = row[1]
-            medal_event = row[2] + ": " + row[7]
+            medal_event = row[2] + ": " + row[3] + " - " + row[7]
             medal_type = row[9]
 
+            if (not year or not athlete_id or not medal_event):
+                continue
+
+            # check if already contained
+            cursor.execute("SELECT * FROM wonmedal WHERE athlete_id = {} AND year = {} AND medal_event = \'{}\';".format(athlete_id, year, medal_event))
             # execute query
-            cursor.execute("INSERT INTO wonmedal VALUES(\'{}\', \'{}\', {}, {});".format(medal_type, medal_event, athlete_id, year))
+            if (not cursor.rowcount):
+                cursor.execute("INSERT INTO wonmedal VALUES(\'{}\', \'{}\', {}, {});".format(medal_type, medal_event, athlete_id, year))
 
 def updateOlympics(conn):
     cursor = conn.cursor()
@@ -151,7 +157,7 @@ def selectQuery(conn):
 # connect and execute queries
 connection = pgdb.connect(host=hostname, user=username,
     password=password, database=database)
-updateHosts(connection)
+updateWonMedal(connection)
 # still need to input continents
 connection.commit()
 print("Committed")
