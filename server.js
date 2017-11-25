@@ -2,6 +2,7 @@
 var express = require('express');
 var path = require('path');
 var app = express(); // define express instance as the app
+var port = process.env.PORT || 8080;
 
 var index = require('./routes/router');
 
@@ -12,8 +13,8 @@ app.use(express.static(path.join(__dirname)));
 
 // TODO FIND OUT WHAT THIS DOES AND SEE IF IT IS NEEDED
 // especially if we deploy on Heroku
-app.listen('8080', function(){
-	console.log('Server running on port 8080');
+app.listen(port, function(){
+	console.log('App is running on port' + port);
 });
 
 
