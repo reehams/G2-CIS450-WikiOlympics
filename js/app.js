@@ -1,10 +1,17 @@
-var app = angular.module('wikiOlympicsApp',[]);
+var app = angular.module('wikiOlympicsApp',['ngRoute']);
 
-app.controller('baseController', function($scope) {
 
-    $scope.text = "hi"
-
+app.config(function($routeProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl : "views/home.html"
+        })
+        .when("/about-us", {
+            templateUrl : "views/about-us.html"
+        })
+    ;
 });
+
 
 app.controller('myController', function($scope, $http) {
 
