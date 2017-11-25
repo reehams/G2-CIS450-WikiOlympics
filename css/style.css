@@ -53,6 +53,7 @@ body {
     transition: 0.3s;
     background: white;
     border-radius: 20px; /* 5px rounded corners */
+    height: 100%;
 }
 
 .card img {
@@ -71,6 +72,7 @@ body {
 
 .row {
 	align-content: center;
+	display: flex;
 	padding-left: 20px;
 	padding-right: 20px;
 }
