@@ -8,6 +8,7 @@ var pg = require('pg');
 var index = require('./routes/router');
 
 app.use('/', index);
+app.use('#/bro', index);
 
 app.use(express.static(path.join(__dirname)));
 
