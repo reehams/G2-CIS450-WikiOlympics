@@ -1,3 +1,5 @@
+
+
 import pgdb
 import csv
 
@@ -44,12 +46,13 @@ def updateAthletes(conn):
             count += 1
             if count == 1:
                 continue
-            print(count)
+            if count % 50 == 0:
+                print(count)
             gender = "M" if row[6] == "Men" else "F"
             # add to seen
             seen.add(name)
             # temporarily just putting the country of everyone as USA (column to be deleted)
-            cursor.execute("INSERT INTO athlete VALUES({}, \'{}\', \'{}\', \'{}\');".format(count, name, "USA", gender))
+            cursor.execute("INSERT INTO athlete VALUES({}, \'{}\', \'{}\');".format(count, name, gender))
 
 def updateOrigin(conn):
     # go through all rows
@@ -69,9 +72,10 @@ def updateOrigin(conn):
             if name in seen:
                 continue
             count += 1
+            if count % 50 == 0:
+                print(count)
             if count == 1:
                 continue
-            print(count)
             seen.add(name)
 
             # check country in country table
@@ -99,8 +103,8 @@ def updateWonMedal(conn):
                 seen[name] = count
             if count == 1:
                 continue
-            print(count)
-
+            if count % 50 == 0:
+                print(count)
             # get athlete_id
             athlete_id = seen[name]
             year = row[1]
@@ -157,9 +161,13 @@ def selectQuery(conn):
 # connect and execute queries
 connection = pgdb.connect(host=hostname, user=username,
     password=password, database=database)
+updateAthletes(connection)
+connection.commit()
+updateOrigin(connection)
+connection.commit()
 updateWonMedal(connection)
 # still need to input continents
 connection.commit()
-print("Committed")
+print("Committed all updates")
 #selectQuery(connection)
 connection.close()
