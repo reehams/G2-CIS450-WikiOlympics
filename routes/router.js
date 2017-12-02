@@ -46,7 +46,6 @@ router.get('/data', function(req, res, next) {
         else {
             // sending the studd that we queried
             res.json(rows);
-            //client.end();
         }
     });
 });
