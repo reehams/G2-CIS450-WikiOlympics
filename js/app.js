@@ -16,7 +16,7 @@ app.config(function($routeProvider) {
 app.controller('myController', function($scope, $http) {
 
     $scope.Submit = function() {
-        var email = $scope.email; 
+        var email = $scope.email;
         if (email == '') email = 'undefined'; // this allows you to always search even if the box is empty
         var request = $http.get('/data/'+email);
         request.success(function(data) {
@@ -25,6 +25,6 @@ app.controller('myController', function($scope, $http) {
         request.error(function(data){
             console.log('err');
         });
-    }; 
+    };
 
 });
