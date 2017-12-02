@@ -25,11 +25,30 @@ router.get('/', function(req, res, next) {
     // });
 
     res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
+});
 
+/* GET home page. */
+router.get('/country-vs-athlete', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'country-vs-athlete.html'));
 });
 
 
+// /* GET about us. */
+router.get('/data', function(req, res, next) {
+    console.log("in about us");
 
+    // uncomment sample query below
+
+    var query = 'SELECT * FROM country;';
+
+    client.query(query, function(err, rows, fields) {
+        if (err) console.log(err);
+        else {
+            // sending the studd that we queried
+            res.json(rows);
+        }
+    });
+});
 
 
 
