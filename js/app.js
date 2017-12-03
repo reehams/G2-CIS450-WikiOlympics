@@ -15,6 +15,7 @@ app.config(function($routeProvider) {
         })
         .when("/battle-sexes", {
             templateUrl : "views/battle-sexes.html"
+        })
         .when("/country-vs-athlete", {
             templateUrl : "views/country-vs-athlete.html"
         })
