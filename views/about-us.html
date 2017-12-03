@@ -53,28 +53,4 @@
 				</div>
 			</div>
 		</div>
-
-		<div ng-controller="insertController">
-			<h1> HELLO </h1>
-			<!-- this is the Insert button -> notice i registered its name -->
-			 <button type="button" ng-click="Insert()" class="button">Insert</button>
-		<table border="0" cellpadding="10" cellspacing="1" width="500" align="center">
-            <tr>
-            <td> Login </td>
-            <td> Name </td>
-            <td> Sex </td>
-            <td> RelationshipStatus </td>
-            <td> Birthyear </td>
-            <td> number of friends</td>
-            <!-- This is where I parse the data that comes back -->
-            <tr ng-repeat="x in data">
-            <td> {{x}} </td>
-            </tr>
-        </table>
-
-
-		</div>
-
-
-
 </html>

@@ -1,0 +1,33 @@
+<html>
+
+    <h1> Country vs athlete </h1>
+
+    <div ng-controller="cvaController">
+        <!-- this is the Insert button -> notice i registered its name -->
+<!--          <button type="button" ng-click="CVA()" class="button">Check</button> -->
+
+        <form name="athleteForm" ng-submit="CVA()" class="athleteForm" required>
+            <label>First Name:</label>
+            <input type="text" name="firstname" ng-model="firstname" required />
+
+            <label>Last Name:</label>
+            <input type="text" name="surname" ng-model="surname" required />
+
+            <button type="submit" class="btn btn-danger">Submit</button>
+        </form>
+
+        <table border="0" cellpadding="10" cellspacing="1" width="500" align="center">
+            <tr>
+            <td> Country </td>
+            <!-- This is where I parse the data that comes back -->
+            <tr ng-repeat="x in data">
+            <td> {{x.name}} </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+
+</html>
