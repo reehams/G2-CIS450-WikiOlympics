@@ -2,6 +2,8 @@ body {
 	background-color: #cce3ff;
 	position: relative;
 	overflow-x: hidden; 
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .header-logo {

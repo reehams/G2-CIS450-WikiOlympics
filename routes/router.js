@@ -65,6 +65,12 @@ router.get('/cva/:firstname/:surname', function(req, res, next) {
 
 });
 
+/** 
+ * GET the number of medals for a given gender, country, and/or sport 
+ * For use in battle sexes
+**/
+router.get('/')
+
 
 // /* GET about us. */
 router.get('/data', function(req, res, next) {
@@ -82,10 +88,6 @@ router.get('/data', function(req, res, next) {
         }
     });
 });
-
-
-
-
 
 
 

@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html>
     <body ng-app="wikiOlympicsApp">
-        <h1>
-            Hello! 
-        </h1>
-        <img src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAgQAAAAJDc0NmJjMDIxLTkyYTctNDJmMi1hYTUxLTRhN2Q3NWZiMWQxZQ.jpg">
+        <h1> Battle of the Sexes </h1>
+        <h3> Check out how male and female olympians compare! </h3>
+        <h4> To get started, put in a country and/or sport!</h4>
+        <h4> Also select the format you would like to see the results </h4>
+        <form name="sexesForm" ng-submit="SEXES()" class="athleteForm" required>
+            <label>Country:</label>
+            <input type="text" name="firstname" ng-model="firstname" required />
+
+            <label>Sport:</label>
+            <input type="text" name="surname" ng-model="surname" required />
+
+            <button type="submit" class="btn btn-danger">Let's go!</button>
+        </form>
     </body>
 </html>
