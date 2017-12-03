@@ -19,6 +19,9 @@ app.config(function($routeProvider) {
         .when("/country-vs-athlete", {
             templateUrl : "views/country-vs-athlete.html"
         })
+        .when("/the-top-athlete", {
+                templateUrl : "views/the-top-athlete.html"
+        })
     ;
 });
 
