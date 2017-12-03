@@ -27,9 +27,42 @@ router.get('/', function(req, res, next) {
     res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
-/* GET home page. */
-router.get('/country-vs-athlete', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../', 'views', 'country-vs-athlete.html'));
+/* GET country vs athlete data */
+router.get('/cva/:firstname/:surname', function(req, res, next) {
+
+    var athlete_name = "";
+
+    if (req.params.firstname && req.params.surname) {
+        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
+    }
+
+
+    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: 'Athlete doesn\'t exist' });
+            } else {
+                var athlete_medals = "WITH phelps_medals AS (SELECT COUNT(*) AS num_medals\nFROM Athlete a, WonMedal m\nWHERE a.name = '"+ athlete_name +"' AND a.athlete_id = m.athlete_id),";
+
+                var IOC_medal_counts = "IOC_medal_counts AS (SELECT o.IOC, COUNT(*) AS num_medals FROM Origin o, WonMedal m WHERE o.athlete_id = m.athlete_id GROUP BY o.IOC)";
+
+                var final = "SELECT c.name FROM Country c, IOC_medal_counts mc, phelps_medals WHERE c.IOC = mc.IOC AND mc.num_medals = phelps_medals.num_medals;";
+
+                client.query(athlete_medals + IOC_medal_counts + final, function(err, result, fields) {
+                    if (err) console.log(err);
+                    else {
+                        // sending the stuff that we queried
+                        res.json(result.rows);
+                    }
+                });
+            }
+
+        }
+    });
+
+
+
 });
 
 
@@ -44,9 +77,8 @@ router.get('/data', function(req, res, next) {
     client.query(query, function(err, rows, fields) {
         if (err) console.log(err);
         else {
-            // sending the studd that we queried
+            // sending the stuff that we queried
             res.json(rows);
-            //client.end();
         }
     });
 });

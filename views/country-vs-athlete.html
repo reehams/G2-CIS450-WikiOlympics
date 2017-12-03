@@ -1,54 +1,33 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>WikiOlypmpics</title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/style.css">
 
-        <!-- JS -->
-        <script src="https://code.angularjs.org/1.4.2/angular.js"></script>
-        <script src="https://code.angularjs.org/1.4.2/angular-route.js"></script>
+    <h1> Country vs athlete </h1>
+
+    <div ng-controller="cvaController">
+        <!-- this is the Insert button -> notice i registered its name -->
+<!--          <button type="button" ng-click="CVA()" class="button">Check</button> -->
+
+        <form name="athleteForm" ng-submit="CVA()" class="athleteForm" required>
+            <label>First Name:</label>
+            <input type="text" name="firstname" ng-model="firstname" required />
+
+            <label>Last Name:</label>
+            <input type="text" name="surname" ng-model="surname" required />
+
+            <button type="submit" class="btn btn-danger">Submit</button>
+        </form>
+
+        <table border="0" cellpadding="10" cellspacing="1" width="500" align="center">
+            <tr>
+            <td> Country </td>
+            <!-- This is where I parse the data that comes back -->
+            <tr ng-repeat="x in data">
+            <td> {{x.name}} </td>
+            </tr>
+        </table>
+    </div>
 
 
-        <!-- AngularJS Controllers -->
-        <script src="js/app.js"></script>
-
-    </head>
-    <body ng-app="wikiOlympicsApp">
 
 
-        <div class='header-wrapper'>
-           <img src='images/golden-background.png' class='inline-image'>
-            <div class='header-overlay'>
-                <img src='images/olympic-logo.png' style="float:left; height:70px; margin-bottom:5px">
-                <img src='images/olympic-logo.png' style="float:right; height:70px; margin-bottom:5px">
-            </div>
-            <div class='header-overlay'>
-                <p class='header-text'>Wiki-Olympics</p>
-                <p class='header-text' style="font-size: 18px;">The one stop shop for all your olympic data needs</p>
-            </div>
-        </div>
 
-        <nav class="navbar navbar-inverse navbar-static-top">
-          <div class="container-fluid">
-            <ul class="nav navbar-nav">
-              <li><a href="/">Home</a></li>
-              <li><a href="/country-vs-athlete">c-v-a</a></li>
-              <li><a href="/about-us">About Us</a></li>
-            </ul>
-          </div>
-        </nav>
-
-        <div>
-
-            <h1> HELLO </h1>
-
-        </div>
-
-        <footer class="sticky-footer">
-            <div></div>
-            CIS 450/550 Final Project by Daniel Blackey, Rahul Kooverjee, Reeham Salah, and Sanjana Sarkar
-        </footer>
-    </body>
 </html>
