@@ -13,6 +13,9 @@ app.config(function($routeProvider) {
         .when("/about-us", {
             templateUrl : "views/about-us.html"
         })
+        .when("/battle-sexes", {
+            templateUrl : "views/battle-sexes.html"
+        })
     ;
 });
 
