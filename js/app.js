@@ -48,11 +48,6 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
 
 
 
-
-
-
-
-
 /*
     As a general rule: have 1 controller per button or drop-down menu
     This controller is registered with an insert button on the about-us page.
