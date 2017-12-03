@@ -20,7 +20,7 @@ app.config(function($routeProvider) {
             templateUrl : "views/country-vs-athlete.html"
         })
         .when("/the-top-athlete", {
-                templateUrl : "views/the-top-athlete.html"
+            templateUrl : "views/the-top-athlete.html"
         })
     ;
 });
