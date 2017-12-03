@@ -1,4 +1,4 @@
-//Query 1 for the top athletes in general: 
+//Query 1 for the top athletes in general (ie: Michael Phelps) 
 
 WITH medal as (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count 
 FROM wonmedal wm GROUP BY wm.athlete_id) SELECT a.name, nm.medal_count
