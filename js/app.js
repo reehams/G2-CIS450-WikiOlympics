@@ -71,4 +71,4 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
 //             $scope.data = data;
 //         });
 //     };
-
+// });
