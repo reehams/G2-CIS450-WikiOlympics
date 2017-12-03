@@ -46,7 +46,23 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
 });
 
 
+app.controller('battleController', function($scope, $http, $window, $route) {
+    $scope.SEXES = function() {
 
+        var country = 'undefined';
+        var sport = 'undefined';
+
+        if ($scope.country) country = $scope.country;
+        if ($scope.sport) sport = $scope.sport
+
+        var request = $http.get('/battle/' + country + '/' + sport);
+        console.log("getting counts for both genders");
+        request.success(function(data) {
+            console.log(data);
+            $scope.data = data;
+        });
+    };
+});
 
 /*
     As a general rule: have 1 controller per button or drop-down menu

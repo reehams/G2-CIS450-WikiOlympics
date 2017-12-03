@@ -66,10 +66,43 @@ router.get('/cva/:firstname/:surname', function(req, res, next) {
 });
 
 /** 
- * GET the number of medals for a given gender, country, and/or sport 
+ * GET the number of medals for both genders given country and/or sport 
  * For use in battle sexes
 **/
-router.get('/')
+router.get('/battle/:country/:sport', function(req, res) {
+
+    console.log("getting " + req.params.country + " " + req.params.sport);
+
+    var query = "";
+
+    // if given both
+    if (req.params.country != 'undefined' && req.params.sport != 'undefined') {
+        var country = req.params.country.toUpperCase();
+        var sport = req.params.sport.toUpperCase();
+        var athletes = "WITH athletes AS (SELECT athlete.athlete_id, athlete.gender FROM athlete, origin, country WHERE athlete.athlete_id=origin.athlete_id AND origin.ioc=country.ioc AND country.name LIKE \'%" + country + "%\')";
+        query = athletes + "SELECT A.gender, COUNT(*) FROM athletes A INNER JOIN wonmedal W ON A.athlete_id=W.athlete_id AND W.medal_event LIKE \'%" + sport + "%\' GROUP BY A.gender;";
+    } else if (req.params.country != 'undefined') {
+        // make first letter of country upper case and rest lower caes
+        var country = req.params.country.toUpperCase();
+        var athletes = "WITH athletes AS (SELECT athlete.athlete_id, athlete.gender FROM athlete, origin, country WHERE athlete.athlete_id=origin.athlete_id AND origin.ioc=country.ioc AND country.name LIKE \'%" + country + "%\')";
+        query = athletes + "SELECT A.gender, COUNT(*) FROM athletes A INNER JOIN wonmedal W ON A.athlete_id=W.athlete_id GROUP BY A.gender;";
+    } else if (req.params.sport != 'undefined') {
+        var sport = req.params.sport.toUpperCase();
+        query = "SELECT A.gender, COUNT(*) FROM athlete A INNER JOIN wonmedal W ON A.athlete_id=W.athlete_id AND W.medal_event LIKE \'%" + sport + "%\' GROUP BY A.gender;";
+    } else {
+        // given nothing
+        query = "SELECT A.gender, COUNT(*) FROM athlete A INNER JOIN wonmedal W ON A.athlete_id=W.athlete_id GROUP BY A.gender;";
+    }
+
+    // execute query
+    client.query(query, function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            // send results
+            res.json(result.rows);
+        }
+    });
+});
 
 
 // /* GET about us. */

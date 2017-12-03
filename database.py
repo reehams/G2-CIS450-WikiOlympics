@@ -24,6 +24,11 @@ def updateCountries(conn):
             print(count)
             # get rid of apostrophes in names (causes syntax error)
             country = row[0].replace('\'', "")
+            # get rid of *
+            country = country.replace('*', '')
+            # convert to upper case
+            country = country.upper()
+
             cursor.execute("INSERT INTO country VALUES(\'{}\', \'{}\', \'{}\');".format(row[1], country, "p"))
     print("Finished inserting countries")
 
@@ -114,6 +119,8 @@ def updateWonMedal(conn):
             if (not year or not athlete_id or not medal_event):
                 continue
 
+            # make everything upper case
+            medal_event = medal_event.upper()
             # check if already contained
             cursor.execute("SELECT * FROM wonmedal WHERE athlete_id = {} AND year = {} AND medal_event = \'{}\';".format(athlete_id, year, medal_event))
             # execute query
@@ -161,12 +168,16 @@ def selectQuery(conn):
 # connect and execute queries
 connection = pgdb.connect(host=hostname, user=username,
     password=password, database=database)
-updateAthletes(connection)
+updateCountries(connection)
+# still need to input continents
 connection.commit()
 updateOrigin(connection)
 connection.commit()
+updateOlympics(connection)
+connection.commit()
+updateHosts(connection)
+connection.commit()
 updateWonMedal(connection)
-# still need to input continents
 connection.commit()
 print("Committed all updates")
 #selectQuery(connection)
