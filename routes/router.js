@@ -114,9 +114,8 @@ router.get('/topathletes/:country',function(req, res) {
         var country = req.params.country.toUpperCase(); 
         var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),"; 
         var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),"; 
-        var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count),";
-        var country_name ="country_name AS(SELECT a.name AS name, p.medal_count AS medal_count, p.c_ioc AS ioc FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id AND p.c_ioc LIKE \'%" + country + "%\')";
-        query = medal + medal_country + proportions + country_name + "SELECT c.name, c.medal_count, c1.name FROM country_name c INNER JOIN country c1 ON c.ioc = c1.ioc;";
+        var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count)";
+        query = "SELECT a.name AS name, p.medal_count AS medal_count, p.c_ioc AS ioc FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id AND p.c_ioc LIKE \'%" + country + "%\'";
     }
     
     else {
