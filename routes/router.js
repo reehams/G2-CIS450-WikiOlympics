@@ -105,15 +105,23 @@ router.get('/battle/:country/:sport', function(req, res) {
 });
 
 //Get TOP athletes
-router.get('/topathletes/',function(req, res) {
+router.get('/topathletes/:country',function(req, res) {
     console.log("getting " + req.params.country); 
     
     var query = ""; 
     
-    var medal = "WITH medal as (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id);"; 
+    if(req.params.country != 'undefined') {
+        var country = req.params.country.toUpperCase(); 
+        var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),"; 
+        var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),"; 
+        var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count)";
+        query = medal + medal_country + proportions + "SELECT a.name, p.medal_count, p.c_ioc FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id AND p.c_ioc LIKE \'%" + country + "%\';";
+    }
     
+    else {
+    var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)"; 
     query = medal + "SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;";
-    
+    }
     // execute query
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
