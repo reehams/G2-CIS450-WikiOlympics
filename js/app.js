@@ -72,11 +72,11 @@ app.controller('battleController', function($scope, $http, $window, $route) {
 app.controller('topAthleteController', function($scope,$http,$window,$route) {
     $scope.TOPATHLETES = function() {
         
-       // var country = 'undefined'; 
+       var country = 'undefined'; 
         
-        //if($scope.country) country = $scope.country; 
+       if($scope.country) country = $scope.country; 
         
-        var request = $http.get('/topathletes/'); 
+        var request = $http.get('/topathletes/' + country); 
         console.log("getting data for top athletes"); 
         request.success(function(data) {
             console.log(data); 
