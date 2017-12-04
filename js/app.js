@@ -67,7 +67,7 @@ app.controller('battleController', function($scope, $http, $window, $route) {
     };
 });
 
-/*Controller for Top Athlete Aspect 
+Controller for Top Athlete Aspect 
 app.controller('topAthleteController', function($scope,$http,$window,$route) {
     $scope.TOPATHLETES = function() {
         
@@ -83,7 +83,7 @@ app.controller('topAthleteController', function($scope,$http,$window,$route) {
         }); 
     }; 
 }); 
-*/
+
 
 /*
     As a general rule: have 1 controller per button or drop-down menu
