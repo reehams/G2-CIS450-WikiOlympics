@@ -3,15 +3,18 @@
     <body ng-app="wikiOlympicsApp">
         <h1> TOP ATHLETES IN THE OLYMPICS </h1>
         <h3> See which top athletes have won the most medals in general or see which athletes are the best in their country! </h3>
-        <h4> To get started, choose your selection as to what you would like to see! </h4>
+        <h4> To get started, here are the top athletes with the most medals in the world, if you would like to see according to country press the button below! </h4>
         <div ng-controller="topAthleteController"> 
             <form name = "topAthleteForm" ng-submit="TOPATHLETES()" class = "topAthleteForm" required>
-                  <label> Country:</label>
+                <h5: 
+                     <p>{{data[0].name}} </p>
+                     <p>{{data[1].name}}</p>
+                     <p>{{data[2].name}}</p>
+                <label> Country:</label>
                   <input type="text" name="country" ng-model="country" /> 
                  
                   <button type="submit" class="btn btn-danger">Highest Rated in Country</button>
-                  <button type="submit" class="btn btn-danger">Highest Rated in General</button>
-                   
+   
            </form>                                   
         </div>
     </body>
