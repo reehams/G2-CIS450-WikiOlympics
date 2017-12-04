@@ -109,6 +109,19 @@ router.get('/topathletes/:country',function(req, res) {
     console.log("getting " + req.params.country); 
     
     var query = ""; 
+    
+    var medal = WITH medal as (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id); 
+    
+    query = medal + SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;
+    
+    // execute query
+    client.query(query, function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            // send results
+            res.json(result.rows);
+        }
+    });
 }); 
 
 // /* GET about us. */
