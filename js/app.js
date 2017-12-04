@@ -49,6 +49,7 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
 });
 
 
+// controller for battle of the sexes form
 app.controller('battleController', function($scope, $http, $window, $route) {
     $scope.SEXES = function() {
 
@@ -62,7 +63,10 @@ app.controller('battleController', function($scope, $http, $window, $route) {
         console.log("getting counts for both genders");
         request.success(function(data) {
             console.log(data);
+            // send data and draw chart
             $scope.data = data;
+            drawChart(data[0].gender, data[0].count, data[1].gender, data[1].count);
+            
         });
     };
 });

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
     <body ng-app="wikiOlympicsApp">
         <h1> Battle of the Sexes </h1>
+        <img src="images/battle-of-sexes.jpg" alt="Avatar" style="width:30%">
         <h3> Check out how male and female olympians compare! </h3>
         <h4> To get started, put in a country and/or sport!</h4>
         <div ng-controller="battleController">
-        <form name="athleteForm" ng-submit="SEXES()" class="athleteForm" required>
+        <form name="athleteForm" ng-submit="SEXES()" id="battleSexes" class="athleteForm" required>
             <label>Country:</label>
             <input type="text" name="country" ng-model="country" />
 
@@ -14,11 +16,12 @@
 
             <button type="submit" class="btn btn-danger">Let's go!</button>
         </form>
-        <h5: 
-        <p> {{data[0].gender}} </p>
-        <p> {{data[0].count}} </p>
-        <p> {{data[1].gender}} </p>
-        <p> {{data[1].count}} </p>
+        <h4> Women </h4>
+        <p> Medal count: {{data[0].count}} </p>
+        <h4> Men </h4>
+        <p> Medal count: {{data[1].count}} </p>
         </div>
+        <div id="piechart" style="width: 900px; height: 500px;"></div>
     </body>
+
 </html>

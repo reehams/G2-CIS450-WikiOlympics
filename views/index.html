@@ -10,10 +10,39 @@
         <script src="https://code.angularjs.org/1.4.2/angular.js"></script>
         <script src="https://code.angularjs.org/1.4.2/angular-route.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-messages.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 
         <!-- AngularJS Controllers -->
         <script src="js/app.js"></script>
+
+        <!-- Battle of the Sexes Pie Chart -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});        
+
+          // draw chart for battle of sexes (with given number of male and female counts)
+          function drawChart(g1, g1count, g2, g2count) {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Gender', 'Medals'],
+              [g1, parseInt(g1count)],
+              [g2, parseInt(g2count)],
+            ]);
+
+            var options = {
+              title: 'Battle of the Sexes Medal Count',
+              color: 'blue',
+              is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+          }
+            
+          
+        </script>
 
     </head>
     <body ng-app="wikiOlympicsApp">
