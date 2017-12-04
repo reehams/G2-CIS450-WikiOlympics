@@ -67,6 +67,7 @@ app.controller('battleController', function($scope, $http, $window, $route) {
     };
 });
 
+/*
 Controller for Top Athlete Aspect 
 app.controller('topAthleteController', function($scope,$http,$window,$route) {
     $scope.TOPATHLETES = function() {
@@ -75,7 +76,7 @@ app.controller('topAthleteController', function($scope,$http,$window,$route) {
         
         if($scope.country) country = $scope.country; 
         
-        var request = $http.get('/topathletes/' = country); 
+        var request = $http.get('/topathletes/' + country); 
         console.log("getting data for top athletes"); 
         request.success(function(data) {
             console.log(data); 
@@ -83,6 +84,7 @@ app.controller('topAthleteController', function($scope,$http,$window,$route) {
         }); 
     }; 
 }); 
+*/
 
 
 /*
