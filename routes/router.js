@@ -105,7 +105,7 @@ router.get('/battle/:country/:sport', function(req, res) {
 });
 
 //Get TOP athletes
-router.get('/topathletes/:country',function(req, res) {
+router.get('/topathletes/',function(req, res) {
     console.log("getting " + req.params.country); 
     
     var query = ""; 
