@@ -109,7 +109,7 @@ router.get('/topathletes',function(req, res) {
     console.log("getting " + req.params.country); 
     
     var query = ""; 
-)}; 
+}); 
 
 // /* GET about us. */
 router.get('/data', function(req, res, next) {
