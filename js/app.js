@@ -65,7 +65,20 @@ app.controller('battleController', function($scope, $http, $window, $route) {
             console.log(data);
             // send data and draw chart
             $scope.data = data;
-            drawChart(data[0].gender, data[0].count, data[1].gender, data[1].count);
+            if (data.message) {
+                $window.alert("No such event or medal winners! Please try another search");
+                $route.reload();
+            } else {
+                if (data.length < 2) {
+                    if (data[0].gender == 'F') {
+                        drawChart(data[0].gender, data[0].count, 'M', 0);
+                    } else {
+                        drawChart('F', 0, data[0].gender, data[0].count);
+                    }
+                } else {
+                    drawChart(data[0].gender, data[0].count, data[1].gender, data[1].count);
+                }
+            }
             
         });
     };

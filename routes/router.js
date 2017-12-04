@@ -98,8 +98,12 @@ router.get('/battle/:country/:sport', function(req, res) {
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {
-            // send results
-            res.json(result.rows);
+            if (result.rows.length == 0) {
+                res.json({message: "No such thing"});
+            } else {
+                // send results
+                res.json(result.rows);
+            }
         }
     });
 });
