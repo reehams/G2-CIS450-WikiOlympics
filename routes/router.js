@@ -104,6 +104,12 @@ router.get('/battle/:country/:sport', function(req, res) {
     });
 });
 
+//Get TOP athletes
+router.get('/topathletes',function(req, res) {
+    console.log("getting " + req.params.country); 
+    
+    var query = ""; 
+)}; 
 
 // /* GET about us. */
 router.get('/data', function(req, res, next) {
