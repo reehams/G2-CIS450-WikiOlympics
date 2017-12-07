@@ -2,9 +2,10 @@ body {
 	background-color: #cce3ff;
 	position: relative;
 	overflow-x: hidden; 
-    margin-left: 20px;
-    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
 }
+
 
 .header-logo {
 	text-align: center;
@@ -92,10 +93,28 @@ html, body {
   height: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-}
 .content {
   flex: 1 0 auto;
+}
+
+.page-with-margins {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+/* Reehams Stuff */ 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
 }
