@@ -132,12 +132,12 @@ app.controller('athleteInfoController', function($scope, $http, $window, $route)
 });
 
 //Controller for Athlete info
-app.controller('athleteInfoController', function($scope, $http, $window, $route) {
+app.controller('countryInfoController', function($scope, $http, $window, $route) {
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
-    $scope.ATHLETE = function() {
+    $scope.COUNTRY = function() {
         // checking out the get request in router.js where I query the db
 
-        var request = $http.get('/athlete/' + $scope.firstname + '/' + $scope.surname);
+        var request = $http.get('/country/' + $scope.country);
         console.log("get data");
         request.success(function(data) {
             console.log("SENDING DATA");
