@@ -65,6 +65,44 @@ router.get('/cva/:firstname/:surname', function(req, res, next) {
 
 });
 
+/* GET country vs athlete data */
+router.get('/cva/:firstname/:surname', function(req, res, next) {
+
+    var athlete_name = "";
+
+    if (req.params.firstname && req.params.surname) {
+        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
+    }
+
+
+    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: 'Athlete doesn\'t exist' });
+            } else {
+                var athlete_medals = "WITH phelps_medals AS (SELECT COUNT(*) AS num_medals\nFROM Athlete a, WonMedal m\nWHERE a.name = '"+ athlete_name +"' AND a.athlete_id = m.athlete_id),";
+
+                var IOC_medal_counts = "IOC_medal_counts AS (SELECT o.IOC, COUNT(*) AS num_medals FROM Origin o, WonMedal m WHERE o.athlete_id = m.athlete_id GROUP BY o.IOC)";
+
+                var final = "SELECT c.name FROM Country c, IOC_medal_counts mc, phelps_medals WHERE c.IOC = mc.IOC AND mc.num_medals = phelps_medals.num_medals;";
+
+                client.query(athlete_medals + IOC_medal_counts + final, function(err, result, fields) {
+                    if (err) console.log(err);
+                    else {
+                        // sending the stuff that we queried
+                        res.json(result.rows);
+                    }
+                });
+            }
+
+        }
+    });
+
+
+
+});
+
 /** 
  * GET the number of medals for both genders given country and/or sport 
  * For use in battle sexes
@@ -135,6 +173,42 @@ router.get('/topathletes/:country',function(req, res) {
         }
     });
 }); 
+
+//Get athlete information
+/* GET country vs athlete data */
+router.get('/athlete/:firstname/:surname', function(req, res, next) {
+
+    var athlete_name = "";
+
+    if (req.params.firstname && req.params.surname) {
+        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
+    }
+
+
+    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: 'Athlete doesn\'t exist' });
+            } else {
+                
+                var final = "SELECT a.name, a.gender, o.ioc FROM athlete a INNER JOIN origin o on a.athlete_id = o.athlete_id;"
+
+                client.query(final, function(err, result, fields) {
+                    if (err) console.log(err);
+                    else {
+                        // sending the stuff that we queried
+                        res.json(result.rows);
+                    }
+                });
+            }
+
+        }
+    });
+
+
+
+});
 
 // /* GET about us. */
 router.get('/data', function(req, res, next) {
