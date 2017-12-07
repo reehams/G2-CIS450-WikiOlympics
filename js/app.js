@@ -25,7 +25,7 @@ app.config(function($routeProvider) {
         .when("/athlete-info", {
             templateUrl: "views/athlete-info.html"
         })
-    .when("/country-info", {
+        .when("/country-info", {
             templateUrl: "views/country-info.html"
         })
     ;

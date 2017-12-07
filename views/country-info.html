@@ -1,46 +1,26 @@
 <!DOCTYPE html>
-<html>
-      <head>
-      <style>
-      table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-      }
-      td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-      }
-      tr:nth-child(even) {
-          background-color: #dddddd;
-      }
-      </style>
-      </head>
-    <body ng-app="wikiOlympicsApp">
-        <h1 align = "center"> COUNTRY INFORMATION </h1>
-        <h3> To get started type in an country and press submit to see their information!</h3>
-        <div ng-controller="countryInfoController">
-        <form name="countryInfo" ng-submit="COUNTRY()" class="countryInfo" required>
-            <label>Country:</label>
-            <input type="text" name="country" ng-model="country" required />
+<div class='page-with-margins'>
+    <h1 align = "center"> COUNTRY INFORMATION </h1>
+    <h3> To get started type in an country and press submit to see their information!</h3>
+    <div ng-controller="countryInfoController">
+      <form name="countryInfo" ng-submit="COUNTRY()" class="countryInfo" required>
+        <label>Country:</label>
+        <input type="text" name="country" ng-model="country" required />
 
-            <button type="submit" class="btn btn-danger">Submit</button>
-        </form>
+        <button type="submit" class="btn btn-danger">Submit</button>
+    </form>
 
-       <table>
-  <tr>
-    <th>Country Name</th>
-    <th>IOC Code</th>
-    <th>Years Hosted</th>
-  </tr>
-  <tr ng-repeat="x in data">
-    <td>{{x.name}}</td>
-    <td>{{x.ioc}}</td>
-    <td>{{x.year}}</td>
-  </tr>
-</table>
+    <table>
+        <tr>
+          <th>Country Name</th>
+          <th>IOC Code</th>
+          <th>Years Hosted</th>
+      </tr>
+      <tr ng-repeat="x in data">
+          <td>{{x.name}}</td>
+          <td>{{x.ioc}}</td>
+          <td>{{x.year}}</td>
+      </tr>
+    </table>
     </div>
-
-
-</html>
+</div>
