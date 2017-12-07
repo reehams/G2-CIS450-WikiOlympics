@@ -22,6 +22,9 @@ app.config(function($routeProvider) {
         .when("/the-top-athlete", {
             templateUrl : "views/the-top-athlete.html"
         })
+        .when("/athlete-info", {
+            templateUrl: "views/athlete-info.html"
+        })
     ;
 });
 
