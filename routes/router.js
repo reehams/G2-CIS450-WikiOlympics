@@ -192,7 +192,7 @@ router.get('/athlete/:firstname/:surname', function(req, res, next) {
                 res.json({message: 'Athlete doesn\'t exist' });
             } else {
                 var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS MedalCount FROM wonmedal wm GROUP BY wm.athlete_id),"
-                var final = medal + "SELECT a.name, a.gender, c.name as country, m.MedalCount FROM athlete a INNER JOIN origin o ON a.athlete_id = o.athlete_id INNER JOIN country c ON c.ioc = o.ioc INNER JOIN medal m where a.athlete_id = m.a_id WHERE a.name = '"+ athlete_name +"';"
+                var final = medal + "SELECT a.name, a.gender, c.name as country, m.MedalCount FROM athlete a INNER JOIN origin o ON a.athlete_id = o.athlete_id INNER JOIN country c ON c.ioc = o.ioc INNER JOIN medal m ON a.athlete_id = m.a_id WHERE a.name = '"+ athlete_name +"';"
 
                 client.query(final, function(err, result, fields) {
                     if (err) console.log(err);
