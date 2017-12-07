@@ -192,7 +192,7 @@ router.get('/athlete/:firstname/:surname', function(req, res, next) {
                 res.json({message: 'Athlete doesn\'t exist' });
             } else {
                 
-                var final = "SELECT a.name, a.gender, o.ioc as country FROM athlete a INNER JOIN origin o on a.athlete_id = o.athlete_id WHERE a.name = '"+ athlete_name +"';"
+                var final = "SELECT a.name, a.gender, c.name as country FROM athlete a INNER JOIN origin o ON a.athlete_id = o.athlete_id INNER JOIN country c ON c.ioc = o.ioc WHERE a.name = '"+ athlete_name +"';"
 
                 client.query(final, function(err, result, fields) {
                     if (err) console.log(err);
