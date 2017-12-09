@@ -5,18 +5,19 @@
     <img src="images/olympic_medals.jpg" alt="Avatar" style="width:30%">
     <h4> To get started, here are the top athletes with the most medals in the world, if you would like to see according to country press the button below! </h4>
     <div ng-controller="topAthleteController"> 
-    <form name = "topAthleteForm" ng-submit="TOPATHLETES()" class = "topAthleteForm" required>
-        <label> Country:</label>
-        <input type="text" name="country" ng-model="country" /> 
+        <form name = "topAthleteForm" ng-submit="TOPATHLETES()" class = "topAthleteForm" required>
+            <label> Country:</label>
+            <select style="width:15%" ng-model="country" ng-options="x for x in countryNames">
+        </select>
 
-        <button type="submit" class="btn btn-danger">Highest Rated</button>
-    </form>   
-    <h5: 
-    <p> {{data[0].name}}</p>
-    <p> {{data[0].medal_count}}</p>
-    <p> {{data[1].name}}</p>
-    <p> {{data[1].medal_count}}</p>
-    <p> {{data[2].name}}</p>
-    <p> {{data[2].medal_count}}</p>
+            <button type="submit" class="btn btn-danger">Highest Rated</button>
+        </form>   
+        <h5: 
+        <p> {{data[0].name}}</p>
+        <p> {{data[0].medal_count}}</p>
+        <p> {{data[1].name}}</p>
+        <p> {{data[1].medal_count}}</p>
+        <p> {{data[2].name}}</p>
+        <p> {{data[2].medal_count}}</p>
     </div>
 </div>

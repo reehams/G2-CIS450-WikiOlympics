@@ -18,31 +18,10 @@
 
         <!-- Battle of the Sexes Pie Chart -->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});        
+        <script type="text/javascript" src="js/chartUtils.js"></script>
 
-          // draw chart for battle of sexes (with given number of male and female counts)
-          function drawChart(g1, g1count, g2, g2count) {
-
-            var data = google.visualization.arrayToDataTable([
-              ['Gender', 'Medals'],
-              [g1, parseInt(g1count)],
-              [g2, parseInt(g2count)],
-            ]);
-
-            var options = {
-              title: 'Battle of the Sexes Medal Count',
-              color: 'blue',
-              is3D: true,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-          }
-            
-          
-        </script>
+        <!-- Names of all our countriess -->
+         <script src="js/countryNames.js"></script>
 
     </head>
     <body ng-app="wikiOlympicsApp">
@@ -56,7 +35,7 @@
             </div>
             <div class='header-overlay'>
                 <p class='header-text'>Wiki-Olympics</p>
-                <p class='header-text' style="font-size: 18px;">The one stop shop for all your olympic data needs</p>
+                <p class='header-text' style="font-size: 18px;">The one stop shop for all your Olympic data needs</p>
             </div>
         </div>
 
@@ -67,7 +46,8 @@
               <li><a href="#/about-us">About Us</a></li>
               <li><a href='#/battle-sexes'>Battle of the Sexes</a></li>
               <li><a href="#/country-vs-athlete">Country vs. Athlete</a></li>
-              <li><a href="#/the-top-athlete">Top Athlete</a></li>
+              <li><a href="#/the-top-athlete">Top Athletes</a></li>
+              <li><a href="#/demographic-performance">Demographic Performance</a></li>
             </ul>
           </div>
         </nav>
