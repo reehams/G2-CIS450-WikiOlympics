@@ -14,6 +14,7 @@
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
+		
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -72,10 +73,9 @@
 						
 							<!-- Sidebar -->
 								<section id="sidebar">
-									<section>
-										<h3>Demographics per Country</h3>
-										<p>Statistics such at Area, Population, GDP, and Unemployment are important variables in figuring out country performance in the Olympics. If looking at the table on the other side of the page, choose your option on the scroll bar to see how these variables indeed to have a correlation!</p>
-									</section>
+									<a href="#" class="image fit"><img src="images/nasser.jpg" alt="" /></a>
+									<h3>Fun Fact!</h3>
+									<p>Nasser al Shami, is a Syrian bozer who competed in the 2004 Summer Olympics and won a bronze medal. He was allegedly injured short after while Syrian security ofrces were protesting against the Syrian government. Despite Syrian's tough times, Shami was able to conquer and win a bronze!</p>
 									<hr />
 								</section>
 
@@ -84,31 +84,33 @@
 						
 							<!-- Content -->
 								<section id="content">
-									<a href="#" class="image fit"><img src="images/nasser.jpg" alt="" /></a>
-									<h3>Fun Fact!</h3>
-									<p>Nasser al Shami, is a Syrian bozer who competed in the 2004 Summer Olympics and won a bronze medal. He was allegedly injured short after while Syrian security ofrces were protesting against the Syrian government. Despite Syrian's tough times, Shami was able to conquer and win a bronze!</p>
-									<div>
+									<section>
+										<h3>Demographics per Country</h3>
+										<p>Statistics such at Area, Population, GDP, and Unemployment are important variables in figuring out country performance in the Olympics. If looking at the table on the other side of the page, choose your option on the scroll bar to see how these variables indeed to have a correlation!</p>
+										<div>
 										   <form ng-submit="SUBMIT()">
-									        <label> Demographic Statistic:</label>
-									        <select style="width:40%" ng-model="selectedDemographic" ng-options="x.option for x in demographicOptions">
-									        </select>
+										        <label> Demographic Statistic:</label>
+										        <select style="width:40%" ng-model="selectedDemographic" ng-options="x.option for x in demographicOptions">
+										        </select>
 
-									        <button type="submit" class="btn btn-danger">Update Data</button>
+										        <button type="submit" class="btn btn-danger">Update Data</button>
 
-									        <table border="0" cellpadding="10" cellspacing="1" width="500" align="center" id="myTable">
-							            <tr>
-							                <th ng-click="sortTable(0)">Country</th>
-							                <th ng-click="sortTable(1)">Medal Count</th>
-							                <th ng-click="sortTable(2)">{{thirdColumnName}}</th>
-							            </tr>
-							            <tr ng-repeat="x in data">
-							                <td>{{sentenceCase(x.name)}}</td>
-							                <td>{{x.medalCount}}</td>
-							                <td>{{x.adjustedCount}}</td>
-							            </tr>
-							        </table>
-    								</form>  
-    								</div>
+										        <table border="0" cellpadding="10" cellspacing="1" width="500" align="center" id="myTable">
+										            <tr>
+										                <th ng-click="sortTable(0)">Country</th>
+										                <th ng-click="sortTable(1)">Medal Count</th>
+										                <th ng-click="sortTable(2)">{{thirdColumnName}}</th>
+										            </tr>
+										            <tr ng-repeat="x in data">
+										                <td>{{sentenceCase(x.name)}}</td>
+										                <td>{{x.medalCount}}</td>
+										                <td>{{x.adjustedCount.toFixed(2)}}</td>
+										            </tr>
+											     </table>
+	    									</form>  
+	    								</div>
+									</section>
+									
 								</section>	
 						</div>
 					</div>

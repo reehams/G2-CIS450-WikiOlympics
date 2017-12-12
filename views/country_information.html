@@ -72,6 +72,17 @@
 						
 							<!-- Sidebar -->
 								<section id="sidebar">
+									<a href="#" class="image fit"><img src="images/team_usa.jpg" alt="" /></a>
+									<h3>Fun Fact!!!</h3>
+									<p>Team USA at the 2016 Olympics comprimised of 264 men and 294 women- marking the most women who have competed for any nation at a single games (beating China's previous record of 289). More femlae athletes participated than male athletes for the first time in history! Out of those 558 members, 106 came back as medalists! Imagine the fame!</p>
+									<hr />
+								</section>
+
+						</div>
+						<div class="8u 12u$(2) important(2)">
+						
+							<!-- Content -->
+								<section id="content">
 									<section>
 										<h3>Country Information</h3>
 										<p>To start, simply type in a country that you would like to learn more about. Below, you will find their full name, IOC code, and the different years they hosted an Olympics if applicable!</p>
@@ -89,28 +100,23 @@
 										        <tr>
 										          <th>Country Name</th>
 										          <th>IOC Code</th>
+										          <th># Gold Medals</th>
+										          <th># Silver Medals</th>
+										          <th># Bronze Medals</th>
 										          <th>Years Hosted</th>
 										      </tr>
 										      <tr ng-repeat="x in data">
-										          <td>{{x.name}}</td>
+										          <td>{{x.countryName}}</td>
 										          <td>{{x.ioc}}</td>
-										          <td>{{x.year}}</td>
+										          <td>{{x.goldCount}}</td>
+										          <td>{{x.silverCount}}</td>
+										          <td>{{x.bronzeCount}}</td>
+										          <td>{{x.yearsHosted}}</td>
 										      </tr>
 										    </table>
 										    </div>
 										</footer>
 									</section>
-									<hr />
-								</section>
-
-						</div>
-						<div class="8u 12u$(2) important(2)">
-						
-							<!-- Content -->
-								<section id="content">
-									<a href="#" class="image fit"><img src="images/team_usa.jpg" alt="" /></a>
-									<h3>Fun Fact!!!</h3>
-									<p>Team USA at the 2016 Olympics comprimised of 264 men and 294 women- marking the most women who have competed for any nation at a single games (beating China's previous record of 289). More femlae athletes participated than male athletes for the first time in history! Out of those 558 members, 106 came back as medalists! Imagine the fame!</p>
 								</section>	
 						</div>
 					</div>

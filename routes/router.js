@@ -78,54 +78,50 @@ router.get('/athlete/:firstname/:surname', function(req, res, next) {
 });
 
 //Get country information
-router.get('/country/:country', function(req, res, next) {
+router.get('/countryHostInfo/:country', function(req, res, next) {
 
     var country_name = "";
 
     if (req.params.country) {
         country_name = req.params.country.toUpperCase();
     }
-
-
-    client.query("SELECT * FROM country WHERE name = '" + country_name + "';", function(err, result, fields) {
+    var query = "SELECT c.name, c.ioc, COALESCE(h.year, -1) as year FROM country c LEFT JOIN hosts h ON c.ioc = h.ioc WHERE c.name = '"+ country_name +"';"
+    client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {
             if (result.rows.length == 0) {
-                res.json({message: 'Country doesn\'t exist' });
+                res.json({message: "No Data"});
             } else {
-                var final = "SELECT c.name, c.ioc, h.year FROM country c INNER JOIN hosts h ON c.ioc = h.ioc WHERE c.name = '"+ country_name +"';"
-
-                client.query(final, function(err, result, fields) {
-                    if (err) console.log(err);
-                    else {
-                        // sending the stuff that we queried
-                        res.json(result.rows);
-                    }
-                });
+                // send results
+                res.json(result.rows);
             }
-
         }
     });
 });
 
 
 // Get the total medal count for a given country - TODO NOT COMPLETE
-router.get('/countryMedalCount/:country', function(req, res, next) {
+router.get('/countryMedalCount/:country/:medal_type', function(req, res, next) {
 
     var country_name = "";
+    var medal_type = "";
+
+    if (req.params.medal_type) {
+        medal_type = req.params.medal_type.toLowerCase();
+        if (medal_type == "gold") medal_type = "Gold";
+        else if (medal_type == "bronze") medal_type = "Bronze";
+        else if (medal_type == "silver") medal_type = "Silver";
+    }
 
     if (req.params.country) {
         country_name = req.params.country.toUpperCase();
     }
 
-    var query = "SELECT c.name, COUNT(*) as medal_count FROM Origin o, WonMedal m, Country c"
-    + " WHERE o.athlete_id = m.athlete_id AND c.IOC = o.IOC AND c.name = '"+ country_name +"'";
+    var query = "SELECT '"+ country_name +"'" + " as country, COALESCE(sum(country_medal_count), 0) as medal_count FROM "
+    + "(SELECT c.name, COUNT(*) as country_medal_count FROM Origin o, WonMedal m, Country c "
+    + "WHERE o.athlete_id = m.athlete_id AND c.IOC = o.IOC AND m.medal_type = '"+ medal_type +"'"
+    + " AND c.name = '"+ country_name +"'" + " GROUP BY c.name) as foo;";
 
-    if (req.params.medal_type && req.params.medal_type.toLowerCase() != "all") {
-        medal_type = medal_type.toLowerCase()
-        query = query + "AND m.medal_type = '"+ medal_type +"'";
-    }
-    query = query + "GROUP BY c.name;";
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {

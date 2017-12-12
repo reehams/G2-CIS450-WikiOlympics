@@ -55,26 +55,49 @@ app.controller('athleteInfoController', function($scope, $http, $window, $route)
 });
 
 //Controller for Athlete info
-app.controller('countryInfoController', function($scope, $http, $window, $route) {
+app.controller('countryInfoController', function($scope, $http, $window, $route, $q) {
     $scope.country = "United States"
 
     $scope.countryNames = COUNTRY_NAMES;
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
+    
     $scope.COUNTRY = function() {
         // checking out the get request in router.js where I query the db
 
-        var request = $http.get('/country/' + $scope.country);
-        console.log("get data");
-        request.success(function(data) {
-            console.log("SENDING DATA");
-            console.log(data);
+        
+        var goldRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "gold");
+        var silverRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "silver");
+        var bronzeRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "bronze");
+        var hostRequest = $http.get('/countryHostInfo/' + $scope.country );
 
-            if (data.message == undefined) {
-                $scope.data = data;
-            } else {
-                $window.alert(data.message);
-                $route.reload();
+        $q.all([goldRequest, silverRequest, bronzeRequest, hostRequest]).then(function(values) {
+            // Get the data
+            var goldCount = values[0].data[0].medal_count;
+            var silverCount = values[1].data[0].medal_count;
+            var bronzeCount = values[2].data[0].medal_count;
+            var hostRequestData = values[3].data; 
+            var yearsHosted = ""; 
+            var IOC = "";
+            var countryName = "";
+            var finalData = [];
+            for (var i = 0; i < hostRequestData.length; i++) {
+                var year = hostRequestData[i].year; 
+                IOC = hostRequestData[i].ioc; 
+                countryName = hostRequestData[i].name; 
+                if (year == -1) {
+                    yearsHosted = "None";
+                }
+                else {
+                    if (i == hostRequestData.length - 1) {
+                        yearsHosted += year;
+                    }
+                    else {
+                        yearsHosted += (year + ", ")
+                    }
+                }
             }
+            finalData[0] = {countryName: $scope.country, ioc: IOC, goldCount: goldCount, silverCount: silverCount, bronzeCount: bronzeCount, yearsHosted: yearsHosted}
+            $scope.data = finalData;
         });
     };
 });
@@ -199,7 +222,7 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
                 var countryName = medalData[i].name.toLowerCase();
                 var medalCount = medalData[i].medal_count;
                 var demoInfo = mapFromCountryToInfo[countryName];
-                var adjustedMedals = medalCount;
+                var adjustedMedals = parseFloat(medalCount);
                 if (demographicOption == 'Area') {
                     adjustedMedals = medalCount / (parseFloat(demoInfo) / 10000); // medals per 10,000 sq km 
                 }
