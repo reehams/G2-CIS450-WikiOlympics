@@ -16,6 +16,6 @@ function drawChart(g1, g1count, g2, g2count) {
   };
 
   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
+  console.log(chart);
   chart.draw(data, options);
 }

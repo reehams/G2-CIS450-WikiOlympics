@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.slidertron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		</noscript>
+		<!-- JS -->
+        <script src="https://code.angularjs.org/1.4.2/angular.js"></script>
+        <script src="https://code.angularjs.org/1.4.2/angular-route.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-messages.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="js/app.js"></script>
+
+        <!-- Battle of the Sexes Pie Chart -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/chartUtils.js"></script>
+
+        <!-- Names of all our countriess -->
+         <script src="js/countryNames.js"></script>
+         <link rel="stylesheet" href="css/custom-styles.css" />
+
+	</head>
+
+	<body ng-app = "cssTestingApp" ng-controller="battleController">
+		<!-- Header -->
+			<!-- Header -->
+			<header id="header" class="alt skel-layers-fixed">
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li>
+							<a href="" class="icon fa-angle-down">Menu</a>
+							<ul>
+								<li><a href="country_information.html">Country Info</a></li>
+								<li><a href="athlete_information.html">Athlete Info</a></li>
+								<li><a href="battle_sexes.html">Battle of the Sexes</a></li>
+								<li><a href="country_vs_athlete.html">Country vs Athlete</a></li>
+								<li><a href="top_athlete.html">Top Athletes</a></li>
+								<li><a href="demographic_performance.html">Demographic Performance</a></li>
+								<li><a href="about_us.html">About Us</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper style1">
+				<header class="major">
+					<h2>Battle of the Sexes</h2>
+					<p>Which gender has more medals? Males? Females? How about per country? How about per sport? Girl or Guy power?!!! Search to find out!</p>
+				</header>
+				<div class="container">
+					<div class="row 150%">
+						<div class="4u 12u$(2)">
+						
+							<!-- Sidebar -->
+								<section id="sidebar">
+									<section>
+										<h3>Battle of the Sexes</h3>
+										<p>If you would like to see which gender has come up on top in general just simply press the "Lets Go!" button. If you would like to see which gender comes up on top per country, per sport, or even both then type in the required fields below!</p>
+										<footer>
+											<div>
+										       <form name="athleteForm" ng-submit="SEXES()" id="battleSexes" class="athleteForm" required>
+											    <label>Country:</label>
+											    <input type="text" name="country" ng-model="country" />
+
+											    <label>Sport:</label>
+											    <input type="text" name="sport" ng-model="sport" />
+
+											    <button type="submit" class="btn btn-danger">Let's go!</button>
+											    </form>
+											    </div>
+											    <div id="piechart" style="width: 900px; height: 500px;"></div>
+										</footer>
+									</section>
+									<hr />
+								</section>
+
+						</div>
+						<div class="8u 12u$(2) important(2)">
+						
+							<!-- Content -->
+								<section id="content">
+									<a href="#" class="image fit"><img src="images/battle_sexes.jpg" alt="" /></a>
+									<h3>Fun Fact</h3>
+									<p>Before the 2012 Olympics- Andy Murray and Serena Williams were tied with number of Olympic medals in Tennis singles.(Serena won a few more through doubles) Andy Murray and Serena Williams always joke about having a battle later on to find out who the true winner in their sport is!</p>
+								</section>	
+						</div>
+					</div>
+				</div>
+			</section>
+			
+		<!-- Footer -->
+			<footer id="footer">
+				<span class="copyright">
+					CIS450 Group Project by Reeham Sedky, Rahul Kooverjee, Sanjana Sarkar, and Daniel Blackey.
+				</span>
+			</footer>
+
+	</body>
+</html>

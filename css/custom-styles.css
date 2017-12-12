@@ -1,0 +1,69 @@
+/* Our custom styles */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.feature {
+	color: black;
+}
+
+#header {
+	color: #DC4B50;
+}
+
+#header.alt {
+	color: #DC4B50;
+}
+
+.about-us .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background: white;
+    border-radius: 20px; /* 5px rounded corners */
+    height: 100%;
+}
+
+.about-us .card img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.about-us .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.about-us .container {
+    padding: 2px 16px;
+    width: 100%;
+}
+
+.about-us .row {
+    align-content: center;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.about-us .column {
+    float: left;
+    width: 23%;
+    margin-bottom: 16px;
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+.about-us h3, h4, h5, h6 {
+        margin: auto;
+    }

@@ -1,8 +1,9 @@
-// Set everything up
 const express = require('express');
 const firebase = require('firebase');
 const router = express.Router();
 const path = require('path');
+
+
 const { Client } = require('pg');
 const client = new Client({
     // replace this if the credentials change, then push to master
@@ -11,26 +12,161 @@ const client = new Client({
 });
 client.connect();
 
-/* GET home page. */
+
 router.get('/', function(req, res, next) {
-
-    // uncomment sample query below
-
-    // client.query('SELECT * FROM country;', (err, res) => {
-    //   console.log("here");
-    //   if (err) throw err;
-    //   for (let row of res.rows) {
-    //     console.log(JSON.stringify(row));
-    //   }
-    //   client.end();
-    // });
-
-    // Some firebase testing TODO DELETE
-    // Import Admin SDK
-
     res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
+router.get('/index.html', function(req, res, next) {
+    res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
+});
+router.get('/athlete_information.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'athlete_information.html'));
+  });
+router.get('/country_information.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'country_information.html'));
+  });
+router.get('/top_athlete.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'top_athlete.html'));
+  });
+
+router.get('/country_vs_athlete.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'country_vs_athlete.html'));
+  });
+
+router.get('/battle_sexes.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'battle_sexes.html'));
+  });
+
+router.get('/demographic_performance.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'demographic_performance.html'));
+  });
+
+router.get('/about_us.html', function(req, res, next) {
+       res.sendFile(path.join(__dirname, '../', 'views', 'about_us.html'));
+  });
+
+//Get athlete information
+router.get('/athlete/:firstname/:surname', function(req, res, next) {
+
+    var athlete_name = "";
+
+    if (req.params.firstname && req.params.surname) {
+        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
+    }
+
+
+    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: 'Athlete doesn\'t exist' });
+            } else {
+                var final = "SELECT a.name, a.gender, c.name as country FROM athlete a INNER JOIN origin o ON a.athlete_id = o.athlete_id INNER JOIN country c ON c.ioc = o.ioc WHERE a.name = '"+ athlete_name +"';"
+
+                client.query(final, function(err, result, fields) {
+                    if (err) console.log(err);
+                    else {
+                        // sending the stuff that we queried
+                        res.json(result.rows);
+                    }
+                });
+            }
+
+        }
+    });
+});
+
+//Get country information
+router.get('/country/:country', function(req, res, next) {
+
+    var country_name = "";
+
+    if (req.params.country) {
+        country_name = req.params.country.toUpperCase();
+    }
+
+
+    client.query("SELECT * FROM country WHERE name = '" + country_name + "';", function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: 'Country doesn\'t exist' });
+            } else {
+                var final = "SELECT c.name, c.ioc, h.year FROM country c INNER JOIN hosts h ON c.ioc = h.ioc WHERE c.name = '"+ country_name +"';"
+
+                client.query(final, function(err, result, fields) {
+                    if (err) console.log(err);
+                    else {
+                        // sending the stuff that we queried
+                        res.json(result.rows);
+                    }
+                });
+            }
+
+        }
+    });
+});
+
+
+// Get the total medal count for a given country - TODO NOT COMPLETE
+router.get('/countryMedalCount/:country', function(req, res, next) {
+
+    var country_name = "";
+
+    if (req.params.country) {
+        country_name = req.params.country.toUpperCase();
+    }
+
+    var query = "SELECT c.name, COUNT(*) as medal_count FROM Origin o, WonMedal m, Country c"
+    + " WHERE o.athlete_id = m.athlete_id AND c.IOC = o.IOC AND c.name = '"+ country_name +"'";
+
+    if (req.params.medal_type && req.params.medal_type.toLowerCase() != "all") {
+        medal_type = medal_type.toLowerCase()
+        query = query + "AND m.medal_type = '"+ medal_type +"'";
+    }
+    query = query + "GROUP BY c.name;";
+    client.query(query, function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            if (result.rows.length == 0) {
+                res.json({message: "No Data"});
+            } else {
+                // send results
+                res.json(result.rows);
+            }
+        }
+    });
+});
+
+//Get TOP athletes
+router.get('/topathletes/:country',function(req, res) {
+    console.log("getting " + req.params.country); 
+    
+    var query = ""; 
+    
+    if(req.params.country != 'undefined') {
+        var country = req.params.country.toUpperCase(); 
+        var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),"; 
+        var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),"; 
+        var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count)";
+        query = medal + medal_country + proportions + "SELECT a.name, p.medal_count FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id INNER JOIN country c ON p.c_ioc = c.ioc AND c.name LIKE \'%" + country + "%\';";
+    }
+    
+    else {
+    var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)"; 
+    query = medal + "SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;";
+    }
+    // execute query
+    client.query(query, function(err, result, fields) {
+        if (err) console.log(err);
+        else {
+            // send results
+            res.json(result.rows);
+        }
+    });
+}); 
+
 /* GET country vs athlete data */
 router.get('/cva/:firstname/:surname', function(req, res, next) {
 
@@ -64,53 +200,8 @@ router.get('/cva/:firstname/:surname', function(req, res, next) {
 
         }
     });
-
-
-
 });
 
-/* GET country vs athlete data */
-router.get('/cva/:firstname/:surname', function(req, res, next) {
-
-    var athlete_name = "";
-
-    if (req.params.firstname && req.params.surname) {
-        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
-    }
-
-
-    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
-        if (err) console.log(err);
-        else {
-            if (result.rows.length == 0) {
-                res.json({message: 'Athlete doesn\'t exist' });
-            } else {
-                var athlete_medals = "WITH phelps_medals AS (SELECT COUNT(*) AS num_medals\nFROM Athlete a, WonMedal m\nWHERE a.name = '"+ athlete_name +"' AND a.athlete_id = m.athlete_id),";
-
-                var IOC_medal_counts = "IOC_medal_counts AS (SELECT o.IOC, COUNT(*) AS num_medals FROM Origin o, WonMedal m WHERE o.athlete_id = m.athlete_id GROUP BY o.IOC)";
-
-                var final = "SELECT c.name FROM Country c, IOC_medal_counts mc, phelps_medals WHERE c.IOC = mc.IOC AND mc.num_medals = phelps_medals.num_medals;";
-
-                client.query(athlete_medals + IOC_medal_counts + final, function(err, result, fields) {
-                    if (err) console.log(err);
-                    else {
-                        // sending the stuff that we queried
-                        res.json(result.rows);
-                    }
-                });
-            }
-
-        }
-    });
-
-
-
-});
-
-/** 
- * GET the number of medals for both genders given country and/or sport 
- * For use in battle sexes
-**/
 router.get('/battle/:country/:sport', function(req, res) {
 
     console.log("getting " + req.params.country + " " + req.params.sport);
@@ -150,112 +241,18 @@ router.get('/battle/:country/:sport', function(req, res) {
     });
 });
 
-//Get TOP athletes
-router.get('/topathletes/:country',function(req, res) {
-    console.log("getting " + req.params.country); 
-    
-    var query = ""; 
-    
-    if(req.params.country != 'undefined') {
-        var country = req.params.country.toUpperCase(); 
-        var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),"; 
-        var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),"; 
-        var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count)";
-        query = medal + medal_country + proportions + "SELECT a.name, p.medal_count FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id INNER JOIN country c ON p.c_ioc = c.ioc AND c.name LIKE \'%" + country + "%\';";
-    }
-    
-    else {
-    var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)"; 
-    query = medal + "SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;";
-    }
-    // execute query
-    client.query(query, function(err, result, fields) {
-        if (err) console.log(err);
-        else {
-            // send results
-            res.json(result.rows);
-        }
-    });
-}); 
-
-//Get athlete information
-router.get('/athlete/:firstname/:surname', function(req, res, next) {
-
-    var athlete_name = "";
-
-    if (req.params.firstname && req.params.surname) {
-        athlete_name = req.params.surname.toUpperCase() + ', ' + req.params.firstname.charAt(0).toUpperCase() + req.params.firstname.toLowerCase().slice(1);
-    }
-
-
-    client.query("SELECT * FROM athlete WHERE name = '" + athlete_name + "';", function(err, result, fields) {
-        if (err) console.log(err);
-        else {
-            if (result.rows.length == 0) {
-                res.json({message: 'Athlete doesn\'t exist' });
-            } else {
-                var final = "SELECT a.name, a.gender, c.name as country FROM athlete a INNER JOIN origin o ON a.athlete_id = o.athlete_id INNER JOIN country c ON c.ioc = o.ioc WHERE a.name = '"+ athlete_name +"';"
-
-                client.query(final, function(err, result, fields) {
-                    if (err) console.log(err);
-                    else {
-                        // sending the stuff that we queried
-                        res.json(result.rows);
-                    }
-                });
-            }
-
-        }
-    });
-
-
-
-});
-
-
-//Get country information
-router.get('/country/:country', function(req, res, next) {
-
-    var country_name = "";
-
-    if (req.params.country) {
-        country_name = req.params.country.toUpperCase();
-    }
-
-
-    client.query("SELECT * FROM country WHERE name = '" + country_name + "';", function(err, result, fields) {
-        if (err) console.log(err);
-        else {
-            if (result.rows.length == 0) {
-                res.json({message: 'Country doesn\'t exist' });
-            } else {
-                var final = "SELECT c.name, c.ioc, h.year FROM country c INNER JOIN hosts h ON c.ioc = h.ioc WHERE c.name = '"+ country_name +"';"
-
-                client.query(final, function(err, result, fields) {
-                    if (err) console.log(err);
-                    else {
-                        // sending the stuff that we queried
-                        res.json(result.rows);
-                    }
-                });
-            }
-
-        }
-    });
-});
-
-
 //Get country information
 router.get('/medalCount/:medal_type', function(req, res, next) {
 
     var query = "SELECT c.name, COUNT(*) as medal_count FROM Origin o, WonMedal m, Country c"
     + " WHERE o.athlete_id = m.athlete_id AND c.IOC = o.IOC "
 
+    var medal_type = ""
     if (req.params.medal_type && req.params.medal_type.toLowerCase() != "all") {
-        medal_type = medal_type.toLowerCase()
+        medal_type = req.params.medal_type.toLowerCase()
         query = query + "AND m.medal_type = '"+ medal_type +"'";
     }
-    query = query + "GROUP BY c.name;";
+    query = query + "GROUP BY c.name ORDER BY c.name ASC;";
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {
@@ -290,32 +287,6 @@ router.get('/demographicInfo/:category', function(req, res, next) {
     });
 
 });
-
-
- 
-
-
-
-   
-
-// /* GET about us. */
-router.get('/data', function(req, res, next) {
-    console.log("in about us");
-
-    // uncomment sample query below
-
-    var query = 'SELECT name FROM country;';
-
-    client.query(query, function(err, result, fields) {
-        if (err) console.log(err);
-        else {
-            // sending the stuff that we queried
-            console.log(result.rows)
-            res.json(result.rows);
-        }
-    });
-});
-
 
 
 

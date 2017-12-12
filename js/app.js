@@ -1,39 +1,104 @@
-var app = angular.module('wikiOlympicsApp',['ngMessages', 'ngRoute']);
-
-/* Add a page here
-// Make your html file have some static html which has a button/drop down
-// clicking on an option in the drop down/ or clicking a button should trigger
-// a function that you have within a controller */
+var app = angular.module('cssTestingApp', ['ngMessages', 'ngRoute']); 
 
 app.config(function($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl : "views/home.html"
+            templateUrl : "views/index.html"
         })
-        .when("/about-us", {
-            templateUrl : "views/about-us.html"
+        .when("/index.html", {
+        	templateUrl: "views/index.html"
         })
-        .when("/battle-sexes", {
-            templateUrl : "views/battle-sexes.html"
+        .when("/athlete_information.html", {
+        	templateUrl: "views/athlete_information.html"
         })
-        .when("/country-vs-athlete", {
-            templateUrl : "views/country-vs-athlete.html"
+        .when("/country_information.html", {
+            templateUrl: "views/country_information.html"
         })
-        .when("/the-top-athlete", {
-            templateUrl : "views/the-top-athlete.html"
+        .when("/top_athlete.html" , {
+            templateUrl: "views/top_athlete.html"
         })
-        .when("/athlete-info", {
-            templateUrl: "views/athlete-info.html"
+        .when("/country_vs_athlete.html", {
+            templateUrl: "views/country_vs_athlete.html"
         })
-        .when("/country-info", {
-            templateUrl: "views/country-info.html"
+        .when("/battle_sexes.html", {
+            templateUrl: "views/battle_sexes.html"
         })
-        .when("/demographic-performance", {
-            templateUrl: "views/demographic-performance.html"
+        .when("/demographic_performance.html", {
+            templateUrl: "views/demographic_performance.html"
         })
-    ;
+        .when("/about_us.html", {
+            templateUrl: "views/about_us.html"
+        })
+        ;
+   }); 
+
+app.controller('athleteInfoController', function($scope, $http, $window, $route) {
+    // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
+    $scope.ATHLETE = function() {
+        // checking out the get request in router.js where I query the db
+        
+        var request = $http.get('/athlete/' + $scope.firstname + '/' + $scope.surname);
+        console.log("get data");
+        request.success(function(data) {
+            console.log("SENDING DATA");
+            // check out the about-us html where I display the data
+            console.log(data);
+
+            if (data.message == undefined) {
+                $scope.data = data;
+            } else {
+                $window.alert(data.message);
+                $route.reload();
+            }
+        }); 
+    };
 });
 
+//Controller for Athlete info
+app.controller('countryInfoController', function($scope, $http, $window, $route) {
+    $scope.country = "United States"
+
+    $scope.countryNames = COUNTRY_NAMES;
+    // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
+    $scope.COUNTRY = function() {
+        // checking out the get request in router.js where I query the db
+
+        var request = $http.get('/country/' + $scope.country);
+        console.log("get data");
+        request.success(function(data) {
+            console.log("SENDING DATA");
+            console.log(data);
+
+            if (data.message == undefined) {
+                $scope.data = data;
+            } else {
+                $window.alert(data.message);
+                $route.reload();
+            }
+        });
+    };
+});
+
+app.controller('topAthleteController', function($scope,$http,$window,$route) {
+    $scope.country = "United States"
+    $scope.countryNames = COUNTRY_NAMES;
+    $scope.showForCountry = true;
+    
+
+    $scope.TOPATHLETES = function() {
+        
+       var country = 'undefined'; 
+        
+       if($scope.showForCountry) country = $scope.country; 
+
+        var request = $http.get('/topathletes/' + country); 
+        console.log("getting data for top athletes"); 
+        request.success(function(data) {
+            console.log(data); 
+            $scope.data = data; 
+        }); 
+    }; 
+}); 
 
 app.controller('cvaController', function($scope, $http, $window, $route) {
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
@@ -57,9 +122,11 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
     };
 });
 
-
 // controller for battle of the sexes form
 app.controller('battleController', function($scope, $http, $window, $route) {
+    $scope.country = "United States"
+
+    $scope.countryNames = COUNTRY_NAMES;
     $scope.SEXES = function() {
 
         var country = 'undefined';
@@ -89,74 +156,6 @@ app.controller('battleController', function($scope, $http, $window, $route) {
                 }
             }
             
-        });
-    };
-});
-
-
-//Controller for Top Athlete Aspect 
-app.controller('topAthleteController', function($scope,$http,$window,$route) {
-
-    $scope.country = "South Africa"
-
-    $scope.countryNames = COUNTRY_NAMES;
-
-    $scope.TOPATHLETES = function() {
-        
-       var country = 'undefined'; 
-        
-       if($scope.country) country = $scope.country; 
-        
-        var request = $http.get('/topathletes/' + country); 
-        console.log("getting data for top athletes"); 
-        request.success(function(data) {
-            console.log(data); 
-            $scope.data = data; 
-        }); 
-    }; 
-}); 
-
-//Controller for Athlete info
-app.controller('athleteInfoController', function($scope, $http, $window, $route) {
-    // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
-    $scope.ATHLETE = function() {
-        // checking out the get request in router.js where I query the db
-
-        var request = $http.get('/athlete/' + $scope.firstname + '/' + $scope.surname);
-        console.log("get data");
-        request.success(function(data) {
-            console.log("SENDING DATA");
-            // check out the about-us html where I display the data
-            console.log(data);
-
-            if (data.message == undefined) {
-                $scope.data = data;
-            } else {
-                $window.alert(data.message);
-                $route.reload();
-            }
-        });
-    };
-});
-
-//Controller for Athlete info
-app.controller('countryInfoController', function($scope, $http, $window, $route) {
-    // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
-    $scope.COUNTRY = function() {
-        // checking out the get request in router.js where I query the db
-
-        var request = $http.get('/country/' + $scope.country);
-        console.log("get data");
-        request.success(function(data) {
-            console.log("SENDING DATA");
-            console.log(data);
-
-            if (data.message == undefined) {
-                $scope.data = data;
-            } else {
-                $window.alert(data.message);
-                $route.reload();
-            }
         });
     };
 });
@@ -318,23 +317,3 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
 });
 
 
-
-/*
-    As a general rule: have 1 controller per button or drop-down menu
-    This controller is registered with an insert button on the about-us page.
-    Only have that button as an example. we'll remove that later on.
-    You need to have a cont
-*/
-// app.controller('insertController', function($scope, $http) {
-//     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
-//     $scope.Insert = function() {
-//         // checking out the get request in router.js where I query the db
-//         var request = $http.get('/data');
-//         console.log("get data");
-//         request.success(function(data) {
-//             console.log("SENDING DATA");
-//             // check out the about-us html where I display the data
-//             $scope.data = data;
-//         });
-//     };
-// });

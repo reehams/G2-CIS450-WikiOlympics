@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.slidertron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		</noscript>
+		<!-- JS -->
+        <script src="https://code.angularjs.org/1.4.2/angular.js"></script>
+        <script src="https://code.angularjs.org/1.4.2/angular-route.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-messages.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="js/app.js"></script>
+
+        <!-- Battle of the Sexes Pie Chart -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/chartUtils.js"></script>
+
+        <!-- Names of all our countriess -->
+         <script src="js/countryNames.js"></script>
+         <link rel="stylesheet" href="css/custom-styles.css" />
+
+	</head>
+
+	<body ng-app = "cssTestingApp" ng-controller="demographicPerformanceController">
+		<!-- Header -->
+			<!-- Header -->
+			<header id="header" class="alt skel-layers-fixed">
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li>
+							<a href="" class="icon fa-angle-down">Menu</a>
+							<ul>
+								<li><a href="country_information.html">Country Info</a></li>
+								<li><a href="athlete_information.html">Athlete Info</a></li>
+								<li><a href="battle_sexes.html">Battle of the Sexes</a></li>
+								<li><a href="country_vs_athlete.html">Country vs Athlete</a></li>
+								<li><a href="top_athlete.html">Top Athletes</a></li>
+								<li><a href="demographic_performance.html">Demographic Performance</a></li>
+								<li><a href="about_us.html">About Us</a></li>								
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper style1">
+				<header class="major">
+					<h2>Demographic Performance</h2>
+					<p>How do countries fare against each other? Do countries with higher GDPs fare better? Scroll to find out!</p>
+				</header>
+				<div class="container">
+					<div class="row 150%">
+						<div class="4u 12u$(2)">
+						
+							<!-- Sidebar -->
+								<section id="sidebar">
+									<section>
+										<h3>Demographics per Country</h3>
+										<p>Statistics such at Area, Population, GDP, and Unemployment are important variables in figuring out country performance in the Olympics. If looking at the table on the other side of the page, choose your option on the scroll bar to see how these variables indeed to have a correlation!</p>
+									</section>
+									<hr />
+								</section>
+
+						</div>
+						<div class="8u 12u$(2) important(2)">
+						
+							<!-- Content -->
+								<section id="content">
+									<a href="#" class="image fit"><img src="images/nasser.jpg" alt="" /></a>
+									<h3>Fun Fact!</h3>
+									<p>Nasser al Shami, is a Syrian bozer who competed in the 2004 Summer Olympics and won a bronze medal. He was allegedly injured short after while Syrian security ofrces were protesting against the Syrian government. Despite Syrian's tough times, Shami was able to conquer and win a bronze!</p>
+									<div>
+										   <form ng-submit="SUBMIT()">
+									        <label> Demographic Statistic:</label>
+									        <select style="width:40%" ng-model="selectedDemographic" ng-options="x.option for x in demographicOptions">
+									        </select>
+
+									        <button type="submit" class="btn btn-danger">Update Data</button>
+
+									        <table border="0" cellpadding="10" cellspacing="1" width="500" align="center" id="myTable">
+							            <tr>
+							                <th ng-click="sortTable(0)">Country</th>
+							                <th ng-click="sortTable(1)">Medal Count</th>
+							                <th ng-click="sortTable(2)">{{thirdColumnName}}</th>
+							            </tr>
+							            <tr ng-repeat="x in data">
+							                <td>{{sentenceCase(x.name)}}</td>
+							                <td>{{x.medalCount}}</td>
+							                <td>{{x.adjustedCount}}</td>
+							            </tr>
+							        </table>
+    								</form>  
+    								</div>
+								</section>	
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<span class="copyright">
+					CIS450 Group Project by Reeham Sedky, Rahul Kooverjee, Sanjana Sarkar, and Daniel Blackey.
+				</span>
+			</footer>
+
+	</body>
+</html>

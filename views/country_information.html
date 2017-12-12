@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.slidertron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		</noscript>
+		<!-- JS -->
+        <script src="https://code.angularjs.org/1.4.2/angular.js"></script>
+        <script src="https://code.angularjs.org/1.4.2/angular-route.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-messages.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="js/app.js"></script>
+
+        <!-- Battle of the Sexes Pie Chart -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/chartUtils.js"></script>
+
+        <!-- Names of all our countriess -->
+         <script src="js/countryNames.js"></script>
+         <link rel="stylesheet" href="css/custom-styles.css" />
+
+	</head>
+
+	<body ng-app = "cssTestingApp" ng-controller="countryInfoController">
+		<!-- Header -->
+			<!-- Header -->
+			<header id="header" class="alt skel-layers-fixed">
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li>
+							<a href="" class="icon fa-angle-down">Menu</a>
+							<ul>
+								<li><a href="country_information.html">Country Info</a></li>
+								<li><a href="athlete_information.html">Athlete Info</a></li>
+								<li><a href="battle_sexes.html">Battle of the Sexes</a></li>
+								<li><a href="country_vs_athlete.html">Country vs Athlete</a></li>
+								<li><a href="top_athlete.html">Top Athletes</a></li>
+								<li><a href="demographic_performance.html">Demographic Performance</a></li>
+								<li><a href="about_us.html">About Us</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper style1">
+				<header class="major">
+					<h2>Country Information</h2>
+					<p>Your goto page on country information! Interested in what years countries hosted Olympics? Search for your country in the search bar below!</p>
+				</header>
+				<div class="container">
+					<div class="row 150%">
+						<div class="4u 12u$(2)">
+						
+							<!-- Sidebar -->
+								<section id="sidebar">
+									<section>
+										<h3>Country Information</h3>
+										<p>To start, simply type in a country that you would like to learn more about. Below, you will find their full name, IOC code, and the different years they hosted an Olympics if applicable!</p>
+										<footer>
+											<div>
+										    <form name="countryInfo" ng-submit="COUNTRY()" class="countryInfo" required>
+									        <label>Country:</label>
+									        <select style="width:100%" ng-model="country" ng-options="x for x in countryNames">
+									        </select>
+
+									        <button type="submit" class="btn btn-danger">Submit</button>
+									    </form>
+
+										    <table>
+										        <tr>
+										          <th>Country Name</th>
+										          <th>IOC Code</th>
+										          <th>Years Hosted</th>
+										      </tr>
+										      <tr ng-repeat="x in data">
+										          <td>{{x.name}}</td>
+										          <td>{{x.ioc}}</td>
+										          <td>{{x.year}}</td>
+										      </tr>
+										    </table>
+										    </div>
+										</footer>
+									</section>
+									<hr />
+								</section>
+
+						</div>
+						<div class="8u 12u$(2) important(2)">
+						
+							<!-- Content -->
+								<section id="content">
+									<a href="#" class="image fit"><img src="images/team_usa.jpg" alt="" /></a>
+									<h3>Fun Fact!!!</h3>
+									<p>Team USA at the 2016 Olympics comprimised of 264 men and 294 women- marking the most women who have competed for any nation at a single games (beating China's previous record of 289). More femlae athletes participated than male athletes for the first time in history! Out of those 558 members, 106 came back as medalists! Imagine the fame!</p>
+								</section>	
+						</div>
+					</div>
+				</div>
+			</section>
+			
+		<!-- Footer -->
+			<footer id="footer">
+				<span class="copyright">
+				CIS450 Group Project by Reeham Sedky, Rahul Kooverjee, Sanjana Sarkar, and Daniel Blackey.
+				</span>
+			</footer>
+
+	</body>
+</html>
