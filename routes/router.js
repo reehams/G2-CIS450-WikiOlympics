@@ -6,9 +6,8 @@ const path = require('path');
 
 const { Client } = require('pg');
 const client = new Client({
-    // replace this if the credentials change, then push to master
   connectionString: 'postgres://qovnnpgvwxzyrq:fcc5ab45891c3ec93f7c3248a993877ee355cfc16ccb785cb29927771c31d8be@ec2-174-129-15-251.compute-1.amazonaws.com:5432/dahe59g5ccfl76',
-  ssl: true,
+  ssl: true
 });
 client.connect();
 
@@ -137,20 +136,20 @@ router.get('/countryMedalCount/:country/:medal_type', function(req, res, next) {
 
 //Get TOP athletes
 router.get('/topathletes/:country',function(req, res) {
-    console.log("getting " + req.params.country); 
-    
-    var query = ""; 
-    
+    console.log("getting " + req.params.country);
+
+    var query = "";
+
     if(req.params.country != 'undefined') {
-        var country = req.params.country.toUpperCase(); 
-        var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),"; 
-        var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),"; 
+        var country = req.params.country.toUpperCase();
+        var medal = "WITH medal AS(SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id),";
+        var medal_country = "medal_country AS (SELECT nm.a_id AS c_a_id, nm.medal_count AS medal_count, o.ioc AS c_ioc FROM medal nm INNER JOIN origin o ON nm.a_id = o.athlete_id),";
         var proportions = "proportions AS(SELECT c_a_id, medal_count,mc. c_ioc FROM medal_country mc INNER JOIN(SELECT max(mc1.medal_count) AS max_medal_count,mc1.c_ioc FROM medal_country mc1 GROUP BY mc1.c_ioc) grouped_medal_c ON mc.c_ioc = grouped_medal_c.c_ioc AND mc.medal_count = max_medal_count)";
         query = medal + medal_country + proportions + "SELECT a.name, p.medal_count FROM athlete a INNER JOIN proportions p ON a.athlete_id = p.c_a_id INNER JOIN country c ON p.c_ioc = c.ioc AND c.name LIKE \'%" + country + "%\';";
     }
-    
+
     else {
-    var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)"; 
+    var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)";
     query = medal + "SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;";
     }
     // execute query
@@ -161,7 +160,7 @@ router.get('/topathletes/:country',function(req, res) {
             res.json(result.rows);
         }
     });
-}); 
+});
 
 /* GET country vs athlete data */
 router.get('/cva/:firstname/:surname', function(req, res, next) {
@@ -266,7 +265,7 @@ router.get('/medalCount/:medal_type', function(req, res, next) {
 // Get demographic information of a county
 router.get('/demographicInfo/:category', function(req, res, next) {
 
-    
+
     var category = req.params.category;
     // send results
     var dbRef = firebase.database().ref(category).orderByKey();
