@@ -69,28 +69,28 @@
 				<div class="container">
 					<div class="row 150%">
 						<div class="4u 12u$(2)">
-						
+
 							<!-- Sidebar -->
 								<section id="sidebar">
 									<a href="#" class="image fit"><img src="images/usain_bolt.jpg" alt="" /></a>
-									<h3>Fun Fact!!</h3>
-									<p>Usain Bolt has won 8 gold medals- he is notable for winning 3 consecutive gold medals(yes that means 12 years) in one of his events. Bolt, although injured at the moment, hopes to change that 3 to 4 gold consecutive medals!</p>
-									
+									<h3>Fun Fact</h3>
+									<p>Usain Bolt has won 8 gold medals. He is notable for winning 3 consecutive gold medals in one of his events. Bolt, although injured at the moment, hopes to change that 3 to 4 gold consecutive medals!</p>
+
 									<hr />
 								</section>
 
 						</div>
 						<div class="8u 12u$(2) important(2)">
-						
+
 							<!-- Content -->
 								<section id="content">
 									<section>
-										<h3>Country vs Athlete Medal Count</h3>
-										<p>Search the first and last name of an Olympic Athlete that you know and you will get a list of countries that cumalitively have just as many medals as that single person!</p>
+										<h3>Country vs. Athlete Medal Count</h3>
+										<p>Search the first and last name of an Olympic Athlete that you know and you will get a list of countries that cumulatively have just as many medals as that single person!</p>
 										<footer>
 											<div>
 										    <form name="athleteForm" ng-submit="CVA()" class="athleteForm" required>
-									        
+
 									       <label>First Name:</label>
             								<input type="text" name="firstname" ng-model="firstname" required />
 
@@ -99,28 +99,29 @@
 
           									 <button type="submit" class="btn btn-danger">Submit</button>
 									    </form>
-
 										    <table>
 										        <tr>
-										          <th>Countries</th>
+										          <th>Country</th>
+										          <th>Number of medals</th>
 										      </tr>
 										      <tr ng-repeat="x in data">
 										          <td>{{x.name}}</td>
+										          <td>{{x.medal_count}}</td>
 										      </tr>
 										    </table>
 										    </div>
 										</footer>
 									</section>
-								</section>	
+								</section>
 						</div>
 					</div>
 				</div>
 			</section>
-			
+
 		<!-- Footer -->
 			<footer id="footer">
 				<span class="copyright">
-					CIS450 Group Project by Reeham Sedky, Rahul Kooverjee, Sanjana Sarkar, and Daniel Blackey.
+					CIS450 Group 2: Reeham Sedky, Rahul Kooverjee, Sanjana Sarkar, and Daniel Blackey
 				</span>
 			</footer>
 

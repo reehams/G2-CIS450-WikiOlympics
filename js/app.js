@@ -1,4 +1,4 @@
-var app = angular.module('cssTestingApp', ['ngMessages', 'ngRoute']); 
+var app = angular.module('cssTestingApp', ['ngMessages', 'ngRoute']);
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -30,13 +30,13 @@ app.config(function($routeProvider) {
             templateUrl: "views/about_us.html"
         })
         ;
-   }); 
+   });
 
 app.controller('athleteInfoController', function($scope, $http, $window, $route) {
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
     $scope.ATHLETE = function() {
         // checking out the get request in router.js where I query the db
-        
+
         var request = $http.get('/athlete/' + $scope.firstname + '/' + $scope.surname);
         console.log("get data");
         request.success(function(data) {
@@ -50,7 +50,7 @@ app.controller('athleteInfoController', function($scope, $http, $window, $route)
                 $window.alert(data.message);
                 $route.reload();
             }
-        }); 
+        });
     };
 });
 
@@ -60,11 +60,11 @@ app.controller('countryInfoController', function($scope, $http, $window, $route,
 
     $scope.countryNames = COUNTRY_NAMES;
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
-    
+
     $scope.COUNTRY = function() {
         // checking out the get request in router.js where I query the db
 
-        
+
         var goldRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "gold");
         var silverRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "silver");
         var bronzeRequest = $http.get('/countryMedalCount/' + $scope.country + "/" + "bronze");
@@ -75,15 +75,15 @@ app.controller('countryInfoController', function($scope, $http, $window, $route,
             var goldCount = values[0].data[0].medal_count;
             var silverCount = values[1].data[0].medal_count;
             var bronzeCount = values[2].data[0].medal_count;
-            var hostRequestData = values[3].data; 
-            var yearsHosted = ""; 
+            var hostRequestData = values[3].data;
+            var yearsHosted = "";
             var IOC = "";
             var countryName = "";
             var finalData = [];
             for (var i = 0; i < hostRequestData.length; i++) {
-                var year = hostRequestData[i].year; 
-                IOC = hostRequestData[i].ioc; 
-                countryName = hostRequestData[i].name; 
+                var year = hostRequestData[i].year;
+                IOC = hostRequestData[i].ioc;
+                countryName = hostRequestData[i].name;
                 if (year == -1) {
                     yearsHosted = "None";
                 }
@@ -106,22 +106,22 @@ app.controller('topAthleteController', function($scope,$http,$window,$route) {
     $scope.country = "United States"
     $scope.countryNames = COUNTRY_NAMES;
     $scope.showForCountry = true;
-    
+
 
     $scope.TOPATHLETES = function() {
-        
-       var country = 'undefined'; 
-        
-       if($scope.showForCountry) country = $scope.country; 
 
-        var request = $http.get('/topathletes/' + country); 
-        console.log("getting data for top athletes"); 
+       var country = 'undefined';
+
+       if($scope.showForCountry) country = $scope.country;
+
+        var request = $http.get('/topathletes/' + country);
+        console.log("getting data for top athletes");
         request.success(function(data) {
-            console.log(data); 
-            $scope.data = data; 
-        }); 
-    }; 
-}); 
+            console.log(data);
+            $scope.data = data;
+        });
+    };
+});
 
 app.controller('cvaController', function($scope, $http, $window, $route) {
     // Insert is the name of the button -> check the about-us.html page for the button and how I registered its name
@@ -131,8 +131,6 @@ app.controller('cvaController', function($scope, $http, $window, $route) {
         var request = $http.get('/cva/' + $scope.firstname + '/' + $scope.surname);
         console.log("get data");
         request.success(function(data) {
-            console.log("SENDING DATA");
-            // check out the about-us html where I display the data
             console.log(data);
 
             if (data.message == undefined) {
@@ -178,7 +176,7 @@ app.controller('battleController', function($scope, $http, $window, $route) {
                     drawChart(data[0].gender, data[0].count, data[1].gender, data[1].count);
                 }
             }
-            
+
         });
     };
 });
@@ -204,12 +202,12 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
         var medalDataReq = $http.get('/medalCount/all', {cache: false});
         var demographicReq = $http.get('/demographicInfo/' + demographicOption, {'cache': false}); // todo
 
-        // Use a promise so the code inside the {} gets executed only after both requests succeed. 
+        // Use a promise so the code inside the {} gets executed only after both requests succeed.
         $q.all([medalDataReq, demographicReq]).then(function(values) {
             // Get the data
             var medalData = values[0].data;
             var demographicData = values[1].data;
-            // Create a map from a country name in lowercase to the demographic info about it 
+            // Create a map from a country name in lowercase to the demographic info about it
             var mapFromCountryToInfo = {}
             for (var i = 0; i < demographicData.length; i++) {
                 var countryName = String(demographicData[i].country);
@@ -224,7 +222,7 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
                 var demoInfo = mapFromCountryToInfo[countryName];
                 var adjustedMedals = parseFloat(medalCount);
                 if (demographicOption == 'Area') {
-                    adjustedMedals = medalCount / (parseFloat(demoInfo) / 10000); // medals per 10,000 sq km 
+                    adjustedMedals = medalCount / (parseFloat(demoInfo) / 10000); // medals per 10,000 sq km
                 }
                 else if (demographicOption == 'GDP') {
                     var unemploymentPercent = (parseFloat(demoInfo));
@@ -236,7 +234,7 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
                     }
                 }
                 else if (demographicOption == 'Population') {
-                    adjustedMedals = medalCount / (parseFloat(demoInfo) / 10000000); // medals per 10 million in pop  
+                    adjustedMedals = medalCount / (parseFloat(demoInfo) / 10000000); // medals per 10 million in pop
                 }
                 else if (demographicOption == 'Unemployment') {
                     var unemploymentPercent = (parseFloat(demoInfo));
@@ -271,7 +269,7 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
         table = document.getElementById("myTable");
         switching = true;
         //Set the sorting direction to ascending:
-        dir = "asc"; 
+        dir = "asc";
         /*Make a loop that will continue until
         no switching has been done:*/
         while (switching) {
@@ -326,7 +324,7 @@ app.controller('demographicPerformanceController', function($scope, $http, $wind
           rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
           switching = true;
           //Each time a switch is done, increase this count by 1:
-          switchcount ++;      
+          switchcount ++;
         } else {
           /*If no switching has been done AND the direction is "asc",
           set the direction to "desc" and run the while loop again.*/

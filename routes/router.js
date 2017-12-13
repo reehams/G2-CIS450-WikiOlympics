@@ -178,11 +178,11 @@ router.get('/cva/:firstname/:surname', function(req, res, next) {
             if (result.rows.length == 0) {
                 res.json({message: 'Athlete doesn\'t exist' });
             } else {
-                var athlete_medals = "WITH phelps_medals AS (SELECT COUNT(*) AS num_medals\nFROM Athlete a, WonMedal m\nWHERE a.name = '"+ athlete_name +"' AND a.athlete_id = m.athlete_id),";
+                var athlete_medals = "WITH phelps_medals AS (SELECT COUNT(*) AS num_medals\nFROM Athlete a INNER JOIN WonMedal m ON a.athlete_id = m.athlete_id WHERE a.name = '"+ athlete_name +"'),";
 
-                var IOC_medal_counts = "IOC_medal_counts AS (SELECT o.IOC, COUNT(*) AS num_medals FROM Origin o, WonMedal m WHERE o.athlete_id = m.athlete_id GROUP BY o.IOC)";
+                var IOC_medal_counts = "IOC_medal_counts AS (SELECT o.IOC, COUNT(*) AS num_medals FROM Origin o INNER JOIN WonMedal m ON o.athlete_id = m.athlete_id GROUP BY o.IOC)";
 
-                var final = "SELECT c.name FROM Country c, IOC_medal_counts mc, phelps_medals WHERE c.IOC = mc.IOC AND mc.num_medals = phelps_medals.num_medals;";
+                var final = "SELECT c.name, mc.num_medals AS medal_count FROM Country c, IOC_medal_counts mc, phelps_medals WHERE c.IOC = mc.IOC AND mc.num_medals <= phelps_medals.num_medals ORDER BY mc.num_medals DESC;";
 
                 client.query(athlete_medals + IOC_medal_counts + final, function(err, result, fields) {
                     if (err) console.log(err);
