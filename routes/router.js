@@ -85,6 +85,7 @@ router.get('/countryHostInfo/:country', function(req, res, next) {
         country_name = req.params.country.toUpperCase();
     }
     var query = "SELECT c.name, c.ioc, COALESCE(h.year, -1) as year FROM country c LEFT JOIN hosts h ON c.ioc = h.ioc WHERE c.name = '"+ country_name +"';"
+    console.log(query);
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {
@@ -120,7 +121,7 @@ router.get('/countryMedalCount/:country/:medal_type', function(req, res, next) {
     + "(SELECT c.name, COUNT(*) as country_medal_count FROM Origin o, WonMedal m, Country c "
     + "WHERE o.athlete_id = m.athlete_id AND c.IOC = o.IOC AND m.medal_type = '"+ medal_type +"'"
     + " AND c.name = '"+ country_name +"'" + " GROUP BY c.name) as foo;";
-
+    console.log(query);
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
         else {
@@ -152,6 +153,7 @@ router.get('/topathletes/:country',function(req, res) {
     var medal = "WITH medal AS (SELECT wm.athlete_id AS a_id, COUNT(wm.medal_type) AS medal_count FROM wonmedal wm GROUP BY wm.athlete_id)";
     query = medal + "SELECT a.name, nm.medal_count FROM athlete a INNER JOIN medal nm on a.athlete_id = nm.a_id ORDER BY nm.medal_count DESC LIMIT 3;";
     }
+    console.log(query);
     // execute query
     client.query(query, function(err, result, fields) {
         if (err) console.log(err);
