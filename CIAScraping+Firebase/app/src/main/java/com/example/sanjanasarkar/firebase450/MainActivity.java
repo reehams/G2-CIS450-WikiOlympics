@@ -13,7 +13,9 @@ import java.util.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
-
+/*
+* @author: Sanjana Sarkar
+*/
 public class MainActivity extends AppCompatActivity {
     Document doc;
     private String htmlContentInStringFormat;
@@ -222,36 +224,17 @@ public class MainActivity extends AppCompatActivity {
         return s.substring(0, s.indexOf("%") + 1);
     }
 
-//    public static void main(String[] args) throws IOException {
-////        getURLS();
-////        fillPopulation();
-//////////		fillGDP();
-//////		fillArea();
-////        //fillGovernment();
-////        fillUnemployment();
-//
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        try {
-//            Document doc = Jsoup.connect(baseURL).get();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
 
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
         setContentView(R.layout.activity_main);
-
-        //getURLS();
-
-
     }
-
+    
+    // async task to seed Firebase db
     private class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -295,7 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
-
+    
+        // pushing to Firebase
         @Override
         protected void onPostExecute(Void result) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
